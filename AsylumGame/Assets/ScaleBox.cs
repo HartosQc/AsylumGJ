@@ -6,10 +6,9 @@ public class ScaleBox : MonoBehaviour {
 	Vector3 minScale = new Vector3 (0.1f, 0.1f, 0.1f);
 	Vector3 maxScale = new Vector3 (1f, 1f, 1f);
 	float scaleTime = .1f;
-	public GameObject box; 
+	GameObject box; 
 	bool isScalingDown = false;
 	bool isScalingUp = false;
-
 
 	public Light[] lightTab;
 
@@ -17,20 +16,15 @@ public class ScaleBox : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		box = GameObject.FindGameObjectWithTag ("Box");
-		lightFadeInOut = GameObject.FindWithTag ("GameMaster").GetComponent<LightFadeInOut> ();
-		lightTab = lightFadeInOut.lightTab;
+		lightFadeInOut = GetComponent<LightFadeInOut> ();
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		if (Input.GetKeyDown (KeyCode.N)) {
-			isScalingDown = true;
-			isScalingUp = false;
-		}
+		
 		if (Input.GetKeyDown (KeyCode.M)) {
-			isScalingDown = false;
-			isScalingUp = true;
+			EventOver ();
 		}
 
 		if (isScalingDown) {
@@ -43,10 +37,13 @@ public class ScaleBox : MonoBehaviour {
 
 		if (isScalingUp) 
 		{
-			scalingUp ();
+			
 			foreach (Light light in lightTab)
 			{
 				lightFadeInOut.fadeIn(light);
+			}
+			if (scalingUp ()) {
+				EventDestroy ();
 			}
 		}
 	}
@@ -59,12 +56,33 @@ public class ScaleBox : MonoBehaviour {
 			isScalingDown = false;
 		}
 	}
-	void scalingUp()
+	 bool scalingUp()
 	{
 		box.transform.localScale = Vector3.Lerp (box.transform.localScale, maxScale, (scaleTime*2) * Time.deltaTime);
 
-		if (box.transform.localScale.x >= maxScale.x) {
+		if (box.transform.localScale.x >= (maxScale.x - 0.001f)) {
 			isScalingUp = false;
+			return true;
 		}
+		return false;
+	}
+
+	public void EventStart()
+	{
+		isScalingDown = true;
+		isScalingUp = false;
+	}
+
+	public void EventOver()
+	{
+		isScalingDown = false;
+		isScalingUp = true;
+	}
+
+	void EventDestroy()
+	{
+		Debug.Log ("Wall Event Over... Destroy");
+		box.transform.localScale = maxScale;
+		Destroy (this.gameObject);
 	}
 }

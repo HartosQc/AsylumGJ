@@ -3,8 +3,8 @@ using System.Collections;
 
 public class LightFadeInOut : MonoBehaviour {
 
-	public Light[] lightTab;
-	public Light pointLight;
+	//public Light[] lightTab;
+	//public Light pointLight;
 	float fadeTime = .7f;
 	bool fadingOut = false;
 	bool fadingIn = false;
@@ -23,52 +23,24 @@ public class LightFadeInOut : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-		if (Input.GetKeyDown (KeyCode.O)) {
-			fadingOut = true;
-			fadingIn = false;
-			//pointLight.enabled = true;
-		}
-
-		if (Input.GetKeyDown (KeyCode.I)) {
-		
-			fadingIn = true;
-			fadingOut = false;
-			//pointLight.enabled = false;
-		}
-
-		if (fadingOut) {
-			foreach (Light light in lightTab) {
-				fadeOut (light,0f);
-			}
-			fadeIn (pointLight);
-		}
-
-		if (fadingIn) {
-			foreach (Light light in lightTab) {
-				fadeIn (light);
-			}
-			fadeOut (pointLight,0f);
-		}
 			
 	}
 
-	public void fadeIn(Light light)
+	public bool fadeIn(Light light)
 	{
-		//foreach (Light light in lightTab)
-		//{
-
 		light.intensity = Mathf.Lerp(light.intensity,LIGHT_INTENSITY,fadeTime * Time.deltaTime);
 
 		if (light.intensity >= (LIGHT_INTENSITY * .95f)) {
 				fadingIn = false;
+			return true;//Light at max intensity
 			}
-		//}
+
+		return false;
 	}
 
 	public void fadeOut(Light light, float targetIntensity)
 	{
-		//foreach (Light light in lightTab)
-		//{
+
 		light.intensity = Mathf.Lerp(light.intensity,(targetIntensity-0.1f),fadeTime * Time.deltaTime);
 
 			
@@ -76,9 +48,5 @@ public class LightFadeInOut : MonoBehaviour {
 			light.intensity = targetIntensity;
 				fadingOut = false;
 			}
-		//}
-
-
-
 	}
 }
