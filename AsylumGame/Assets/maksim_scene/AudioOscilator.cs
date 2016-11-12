@@ -5,11 +5,11 @@ public class AudioOscilator : MonoBehaviour {
 
     public float oscilWidth;
     public float oscilStrength;
-    public float INTENSITY_TO_REPLACE;
     private float oscilPos;
     private bool goingUp;
     private float currentIntensity;
     private AudioSource currentAudioSource;
+    public AudioIntensity audIn;
 	// Use this for initialization
 	void Start () {
         goingUp = true;
@@ -20,7 +20,7 @@ public class AudioOscilator : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        currentIntensity = INTENSITY_TO_REPLACE / 4f;
+        currentIntensity = audIn.intensity / 4f;
         currentAudioSource = gameObject.GetComponent<AudioSource>();
    
         if (currentAudioSource.pitch < 1f + 1f * currentIntensity * oscilWidth && goingUp) {
@@ -40,7 +40,7 @@ public class AudioOscilator : MonoBehaviour {
         {
             goingUp = true;
         }
-        currentAudioSource.volume = 1f * INTENSITY_TO_REPLACE * 0.0002f;
+        currentAudioSource.volume = 1f * audIn.intensity * 0.0002f;
        
     }
 }
