@@ -9,7 +9,7 @@ public class HealthBar : MonoBehaviour {
     public bool progressBar;
     private bool isTrigger = false;
     private bool isLunch = false; 
-    private bool isStop = false;
+    
     public bool isRollback; 
     public GameObject GameEventManager;
     
@@ -43,17 +43,20 @@ public class HealthBar : MonoBehaviour {
     }
 
     // Take dommage
-    public void takeDommage(float damage) {
-        if (!isTrigger && hitpoint != 0 && !isStop)
+    public void takeDommage(float damage)
+    {
+        if (!isTrigger && hitpoint != 0)
             hitpoint -= damage;
     }
 
     // Heal dommage
     public void healDommage(float damage)
     {
-        if (!isTrigger && hitpoint != maxHitpoint && !isStop)
+        if (!isTrigger && hitpoint != maxHitpoint )
             hitpoint += damage;
     }
+
+ 
 
     // verificator
     private bool verificatorHealt() {
@@ -99,7 +102,41 @@ public class HealthBar : MonoBehaviour {
         }
     }
 
+    public void interactPlate(bool input) {
+        GameObject[] reds;
+        reds = GameObject.FindGameObjectsWithTag("WorkZone");
+        foreach (GameObject r in reds) {
+            TriggerZoneHealthBar dommagePlate = (TriggerZoneHealthBar)r.GetComponent(typeof(TriggerZoneHealthBar));
+            if (input)
+            {
+                dommagePlate.activeProgress();
+            }
+            else
+            {
+                dommagePlate.desactiveProgress();
+            }
+            
+        }
+
+        reds = GameObject.FindGameObjectsWithTag("LazyZone");
+        foreach (GameObject r in reds)
+        {
+            TriggerZoneHealthBar dommagePlate = (TriggerZoneHealthBar)r.GetComponent(typeof(TriggerZoneHealthBar));
+            if (input)
+            {
+                dommagePlate.activeProgress();
+            }
+            else
+            {
+                dommagePlate.desactiveProgress();
+            }
+        }
+    }
+
     private void lunchEvent() {
+
+        interactPlate(false);
+
         isLunch = true;
         GameEventManager other = (GameEventManager)GameEventManager.GetComponent(typeof(GameEventManager));
         other.activeFirstEvent();
