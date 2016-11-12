@@ -4,16 +4,22 @@ using System.Threading;
 
 public class InputText : MonoBehaviour {
 
-	public string text = "Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World";
 	public bool auto;
+	public string fileName;
 	public float timeByCharacter = 2.4f;
 	public int lineLenght = 14;
 	public int maxLine = 4;
+	public bool isCompact = false;
+	private string text = "";
 	private Thread flickeringThread;
 	private int lastCharIndex;
 	private bool autoStarted;
+	private int lineNumber;
+	private int charSkip;
 
-	void Start() {
+	public void Start() {
+		FileReader reader = new FileReader();
+		text = reader.readFile(fileName);
 		resetText ();
 	}
 
@@ -29,6 +35,19 @@ public class InputText : MonoBehaviour {
 		}
 	}
 
+	public void addMessage(string text) {
+		TextMesh mesh = GetComponent<TextMesh> ();
+		mesh.text += text;
+		addLine ();
+		if(isScreenFull()) {
+			removeFirstLine ();
+		}
+	}
+
+	public bool isAllTextWritten() {
+		return lastCharIndex == text.Length;
+	}
+
 	IEnumerator autoWritingLoop() {
 		while (auto) {
 			if (isAllTextWritten ()) {
@@ -41,29 +60,42 @@ public class InputText : MonoBehaviour {
 	}
 
 	private void writeCharacter() {
+		checkForNewLines ();
 		TextMesh mesh = GetComponent<TextMesh> ();
-		mesh.text += text.Substring(lastCharIndex, 1);
+		mesh.text += getNextChar ();
 		++lastCharIndex;
-		if (isEndLine ()) {
-			addLine ();
-		}
-		if(isScreenFull()) {
-			removeFirstLine ();
+		--charSkip;
+	}
+
+	private void checkForNewLines() {
+		TextMesh mesh = GetComponent<TextMesh> ();
+		if (mesh.text.Length != text.Length) {
+			if (charSkip == 0 && isWordToLarge () && !isCompact) {
+				Debug.Log ("word new line");
+				addLine();
+			}
+			if(isEndLine () && isCompact) {
+				Debug.Log ("end line newLine");
+				addLine ();
+			}
+			if(isScreenFull()) {
+				removeFirstLine ();
+			}
 		}
 	}
-		
-	private bool isAllTextWritten() {
-		TextMesh mesh = GetComponent<TextMesh> ();
-		return lastCharIndex == text.Length;
+
+	private string getNextChar() {
+		return text.Substring(lastCharIndex, 1);
 	}
 
 	private bool isEndLine() {
-		return lastCharIndex % lineLenght == 0;
+		TextMesh mesh = GetComponent<TextMesh> ();
+		return mesh.text.Length % lineLenght == 0 && mesh.text.Length != 0;
 	}
 
 	private bool isScreenFull() {
 		TextMesh mesh = GetComponent<TextMesh> ();
-		return mesh.text.Length / lineLenght == maxLine;
+		return mesh.text.Length/lineLenght == maxLine + 1;
 	}
 
 	private void resetText() {
@@ -75,10 +107,20 @@ public class InputText : MonoBehaviour {
 	private void addLine() {
 		TextMesh mesh = GetComponent<TextMesh> ();
 		mesh.text += "\n";
+		++lineNumber;
 	}
 
 	private void removeFirstLine() {
 		TextMesh mesh = GetComponent<TextMesh> ();
 		mesh.text = mesh.text.Substring(lineLenght + 1);
+		--lineNumber;
+	}
+
+	private bool isWordToLarge() {
+		TextMesh mesh = GetComponent<TextMesh> ();
+		int charLeft = lineLenght - (mesh.text.Length % lineLenght);
+		string word = text.Substring(lastCharIndex, text.IndexOf(" ",lastCharIndex) - lastCharIndex);
+		charSkip = word.Length + 1;
+		return word.Length >= charLeft - 1;
 	}
 }

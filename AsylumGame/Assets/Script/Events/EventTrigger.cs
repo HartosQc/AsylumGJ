@@ -8,14 +8,12 @@ public abstract class EventTrigger : MonoBehaviour {
 
 	public void OnTriggerEnter (Collider other) {
 		if(other.gameObject.tag == Tags.PLAYER){
-			Debug.Log ("Terminal close");
 			enterAction(other.gameObject);
 		}
 	}
 
 	public void OnTriggerExit(Collider other) {
 		if(other.gameObject.tag == Tags.PLAYER){
-			Debug.Log ("Terminal away");
 			exitAction(other.gameObject);
 		}	
 	}

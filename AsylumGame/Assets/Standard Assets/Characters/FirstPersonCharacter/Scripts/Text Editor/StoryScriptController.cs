@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class FileReader : MonoBehaviour {
+public class StoryScriptController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
