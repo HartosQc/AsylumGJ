@@ -8,14 +8,14 @@ public class Sitting : Movement {
 	public void sit() {
 		if (!sitting) {
 			sitting = true; 
-			move (Vector3.down); 
+			move (new Vector3(0, transform.localScale.y/2 * -1, 0)); 
 		}
 	}
 
 	public void getUp() {
 		if (sitting) {
 			sitting = false;
-			move (Vector3.up); 
+			move (new Vector3(0, transform.localScale.y/2, 0)); 
 		}
 	}
 

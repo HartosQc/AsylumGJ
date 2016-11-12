@@ -27,4 +27,8 @@ public class Movement : MonoBehaviour {
 		journeyLength = Vector3.Distance(startMarker.position, endMarker);
 		moving = true;
 	}
+
+	public bool isMoving() {
+		return moving;
+	}
 }
