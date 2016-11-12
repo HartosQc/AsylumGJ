@@ -7,7 +7,10 @@ public class HealthBar : MonoBehaviour {
     //initialisator
     public float maxHp;
     public bool progressBar;
-
+    public bool isTrigger = false;
+    public bool isLunch = false; 
+    public bool isRollback; 
+    public GameObject GameEventManager;
 
     //parameter of Helthbar
     private float hitpoint;
@@ -39,30 +42,66 @@ public class HealthBar : MonoBehaviour {
 
     // Take dommage
     public void takeDommage(float damage) {
-        hitpoint -= damage;
+        if (!isTrigger && hitpoint != 0)
+            hitpoint -= damage;
     }
 
     // Heal dommage
     public void healDommage(float damage)
     {
-        hitpoint++;
+        if (!isTrigger && hitpoint != maxHitpoint)
+            hitpoint += damage;
     }
 
     // verificator
-    private void verificatorHealt() {
-        if (progressBar) {
-            if (maxHitpoint == hitpoint)
-            {
-                Debug.Log("FullHealt");
-            }
+    private bool verificatorHealt() {
+        if (isTrigger)
+        {
+            return true;
         }
         else
         {
-            if (hitpoint == 0)
+            if (progressBar) {
+                if (maxHitpoint == hitpoint)
+                {
+                    isTrigger = true;
+                    Debug.Log("FullHealt");
+                    return false;
+                }
+            }
+            else
             {
-                Debug.Log("dead");
+                if (hitpoint == 0)
+                {
+                    isTrigger = true;
+                    Debug.Log("dead");
+                    return false;
+                }
             }
         }
+        return false;
+        
+    }
+
+    // rollback the value of the bar
+    private void rollbackBar() {
+        isTrigger = false;
+        isLunch = false;
+        if (progressBar)
+        {
+            hitpoint = 0;
+        }
+        else
+        {
+            hitpoint = maxHitpoint;
+        }
+    }
+
+    private void lunchEvent() {
+        isLunch = true;
+        GameEventManager other = (GameEventManager)GameEventManager.GetComponent(typeof(GameEventManager));
+        other.activeFirstEvent();
+        Debug.Log("lol?");
     }
     
 
@@ -72,6 +111,19 @@ public class HealthBar : MonoBehaviour {
         currentBar.rectTransform.localScale = new Vector3(ratio,1,1);
         currentText.text = (ratio * 100).ToString("0") + '%';
 
-        verificatorHealt();
+        if (verificatorHealt())
+        {
+            
+            if (isRollback) {
+                rollbackBar();
+            }
+
+            if (!isLunch)
+            {
+                lunchEvent();
+            }
+            
+        }
+        
     }
 }
