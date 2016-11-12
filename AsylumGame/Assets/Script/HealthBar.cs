@@ -7,10 +7,12 @@ public class HealthBar : MonoBehaviour {
     //initialisator
     public float maxHp;
     public bool progressBar;
-    public bool isTrigger = false;
-    public bool isLunch = false; 
+    private bool isTrigger = false;
+    private bool isLunch = false; 
+    private bool isStop = false;
     public bool isRollback; 
     public GameObject GameEventManager;
+    
 
     //parameter of Helthbar
     private float hitpoint;
@@ -42,14 +44,14 @@ public class HealthBar : MonoBehaviour {
 
     // Take dommage
     public void takeDommage(float damage) {
-        if (!isTrigger && hitpoint != 0)
+        if (!isTrigger && hitpoint != 0 && !isStop)
             hitpoint -= damage;
     }
 
     // Heal dommage
     public void healDommage(float damage)
     {
-        if (!isTrigger && hitpoint != maxHitpoint)
+        if (!isTrigger && hitpoint != maxHitpoint && !isStop)
             hitpoint += damage;
     }
 
