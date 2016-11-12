@@ -11,7 +11,7 @@ public class LightFadeInOut : MonoBehaviour {
 	private float mEndTime = 0;
 	private float mStartTime = 0;
 
-	const float LIGHT_INTENSITY = 3.2f; 
+	const float LIGHT_INTENSITY = 3.3f; 
 	// Use this for initialization
 	void Start () 
 	{
@@ -38,7 +38,7 @@ public class LightFadeInOut : MonoBehaviour {
 
 		if (fadingOut) {
 			foreach (Light light in lightTab) {
-				fadeOut (light);
+				fadeOut (light,0f);
 			}
 			fadeIn (pointLight);
 		}
@@ -47,11 +47,9 @@ public class LightFadeInOut : MonoBehaviour {
 			foreach (Light light in lightTab) {
 				fadeIn (light);
 			}
-			fadeOut (pointLight);
+			fadeOut (pointLight,0f);
 		}
-
-		Debug.Log ("Fading Out:" + fadingOut);
-		Debug.Log ("Fading In: " + fadingIn);
+			
 	}
 
 	public void fadeIn(Light light)
@@ -59,22 +57,23 @@ public class LightFadeInOut : MonoBehaviour {
 		//foreach (Light light in lightTab)
 		//{
 
-			light.intensity = Mathf.Lerp(light.intensity,LIGHT_INTENSITY,fadeTime * Time.deltaTime);
+		light.intensity = Mathf.Lerp(light.intensity,LIGHT_INTENSITY,fadeTime * Time.deltaTime);
 
-			if (light.intensity >= LIGHT_INTENSITY) {
+		if (light.intensity >= (LIGHT_INTENSITY * .95f)) {
 				fadingIn = false;
 			}
 		//}
 	}
 
-	public void fadeOut(Light light)
+	public void fadeOut(Light light, float targetIntensity)
 	{
 		//foreach (Light light in lightTab)
 		//{
-			light.intensity = Mathf.Lerp(light.intensity,0,fadeTime * Time.deltaTime);
+		light.intensity = Mathf.Lerp(light.intensity,(targetIntensity-0.1f),fadeTime * Time.deltaTime);
 
 			
-			if (light.intensity <= 0.009) {
+		if (light.intensity < targetIntensity) {
+			light.intensity = targetIntensity;
 				fadingOut = false;
 			}
 		//}
