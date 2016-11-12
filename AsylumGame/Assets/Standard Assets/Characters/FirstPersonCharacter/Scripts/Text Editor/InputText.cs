@@ -71,11 +71,9 @@ public class InputText : MonoBehaviour {
 		TextMesh mesh = GetComponent<TextMesh> ();
 		if (mesh.text.Length != text.Length) {
 			if (charSkip == 0 && isWordToLarge () && !isCompact) {
-				Debug.Log ("word new line");
 				addLine();
 			}
 			if(isEndLine () && isCompact) {
-				Debug.Log ("end line newLine");
 				addLine ();
 			}
 			if(isScreenFull()) {

@@ -4,45 +4,37 @@ using System.Collections.Generic;
 
 public class PlayerControls : MonoBehaviour {
 
-	public bool canSit;
-	private List<GameObject> nearInteractables;
+	private InteractableController interactableControl;
 
 	void Start() {
-		nearInteractables = new List<GameObject> ();
+		interactableControl = new InteractableController ();
 	}
 
 	void Update () {
-		if (canSit) {
-			GameObject closestTerminal = getClosestTerminal ();
-			if (Input.GetKeyDown (KeyCode.E)) {
-				if(closestTerminal != null) closestTerminal.GetComponent<ScreenTextEditor>().setEditing();
-				GetComponent<Sitting>().sit();
-			}
-			if (Input.GetKeyDown (KeyCode.Q)) {
-				if(closestTerminal != null) closestTerminal.GetComponent<ScreenTextEditor>().setPending();
-				GetComponent<Sitting>().getUp();
-			}
-		}
+		interactableControl.interactWithTerminal (this);
+	}
+
+	public void sit() {
+		GetComponent<Sitting> ().sit ();
+	}
+
+	public void getUp() {
+		GetComponent<Sitting> ().getUp ();
 	}
 
 	public bool canMove() {
-		return !GetComponent<Sitting>().isSitting() && !GetComponent<Sitting>().isMoving();
+		return !GetComponent<Sitting>().isMoving();
+	}
+
+	public bool isSitting() {
+		return GetComponent<Sitting> ().isSitting ();
 	}
 
 	public void addInteractable(GameObject interactableObject) {
-		nearInteractables.Add (interactableObject);
+		interactableControl.addInteractable (interactableObject);
 	}
 
 	public void removeInteractable(GameObject interactableObject) {
-		nearInteractables.Add (interactableObject);
-	}
-
-	private GameObject getClosestTerminal() {
-		foreach(GameObject interactable in nearInteractables){
-			if(interactable.tag == Tags.TERMINAL){
-				return interactable;
-			}
-		}
-		return null;
+		interactableControl.removeInteractable (interactableObject);
 	}
 }
