@@ -3,7 +3,7 @@ using System.Collections;
 using System.IO;
 using System;
 
-public class FileReader : MonoBehaviour {
+public class FileReader {
 
 	private string path = "Assets/Text/";
 
