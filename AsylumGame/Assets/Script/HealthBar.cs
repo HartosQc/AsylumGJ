@@ -28,20 +28,22 @@ public class HealthBar : MonoBehaviour {
         }
 
         hitpoint = 0;
+        UpdateHealthBar();
     }
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
+        UpdateHealthBar();
+
+    }
 
     // Take dommage
-    private void takeDommage() {
-        hitpoint--;
+    public void takeDommage(float damage) {
+        hitpoint -= damage;
     }
 
     // Heal dommage
-    private void healDommage()
+    public void healDommage(float damage)
     {
         hitpoint++;
     }
