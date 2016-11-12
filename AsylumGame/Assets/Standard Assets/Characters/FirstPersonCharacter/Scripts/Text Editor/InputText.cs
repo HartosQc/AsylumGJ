@@ -4,16 +4,19 @@ using System.Threading;
 
 public class InputText : MonoBehaviour {
 
-	public string text = "Hello World Hello World Hello World Hello World Hello World Hello World Hello World Hello World";
 	public bool auto;
+	public string fileName;
 	public float timeByCharacter = 2.4f;
 	public int lineLenght = 14;
 	public int maxLine = 4;
+	private string text = "";
 	private Thread flickeringThread;
 	private int lastCharIndex;
 	private bool autoStarted;
 
 	void Start() {
+		FileReader reader = new FileReader();
+		text = reader.readFile(fileName);
 		resetText ();
 	}
 
@@ -53,7 +56,6 @@ public class InputText : MonoBehaviour {
 	}
 		
 	private bool isAllTextWritten() {
-		TextMesh mesh = GetComponent<TextMesh> ();
 		return lastCharIndex == text.Length;
 	}
 
