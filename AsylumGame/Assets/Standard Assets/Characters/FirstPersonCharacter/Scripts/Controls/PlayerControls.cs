@@ -37,6 +37,11 @@ public class PlayerControls : MonoBehaviour {
 		nearInteractables.Add (interactableObject);
 	}
 
+	private void writeOnTerminal() {
+		GameObject closestTerminal = getClosestTerminal ();
+
+	}
+
 	private GameObject getClosestTerminal() {
 		foreach(GameObject interactable in nearInteractables){
 			if(interactable.tag == Tags.TERMINAL){
