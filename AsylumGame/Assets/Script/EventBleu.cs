@@ -13,12 +13,5 @@ public class EventBleu : ScaryEvent
 
     public void destroyEvent() { }
 
-    void Update()
-    {
-
-        if (Input.GetKeyDown("space"))
-        {
-            reactivePlate();
-        }
-    }
+   
 }
