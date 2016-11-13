@@ -6,11 +6,13 @@ public class openDoor : MonoBehaviour {
 	bool playerInSight = false;
 	GameObject player;
 	public GameObject money;
+	public GameObject clipGenerator;
 	// Use this for initialization
 	void Start () 
 	{
 		player = GameObject.FindGameObjectWithTag ("Player");
 		money.SetActive (false);
+		clipGenerator.SetActive (false);
 	
 	}
 	
@@ -49,6 +51,7 @@ public class openDoor : MonoBehaviour {
 		if(Physics.Raycast(ray, out hit, 100)){
 
 			money.SetActive (true);
+			clipGenerator.SetActive (true);
 			
 		}
 	}

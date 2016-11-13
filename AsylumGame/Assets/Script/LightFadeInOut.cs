@@ -5,7 +5,7 @@ public class LightFadeInOut : MonoBehaviour {
 
 	//public Light[] lightTab;
 	//public Light pointLight;
-	float fadeTime = .7f;
+	float fadeTime = .3f;
 	bool fadingOut = false;
 	bool fadingIn = false;
 	private float mEndTime = 0;

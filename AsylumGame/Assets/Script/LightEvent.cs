@@ -8,12 +8,15 @@ public class LightEvent : MonoBehaviour {
 	public Light[] lightTab;
 	public Light pointLight;
 
+	public GameObject clipGenerator;
 	bool eventIsStarted = false;
 	bool eventIsOver = false;
 	void Start () 
 	{
 		lightFadeInOut = GetComponent<LightFadeInOut> ();
+		clipGenerator.SetActive (false);
 		EventStart ();
+
 	}
 	
 	// Update is called once per frame
@@ -48,12 +51,14 @@ public class LightEvent : MonoBehaviour {
 	public void EventStart()
 	{
 		eventIsStarted = true;
+		clipGenerator.SetActive (true);
 	}
 
 	public void EventOver ()
 	{
 		eventIsStarted = false;
 		eventIsOver = true;
+		clipGenerator.SetActive (false);
 	}
 
 	void EventDestroy()
