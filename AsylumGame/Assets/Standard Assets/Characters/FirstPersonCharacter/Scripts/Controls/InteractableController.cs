@@ -22,7 +22,7 @@ public class InteractableController {
 		GameObject closestTerminal = getClosestTerminal ();
 		if (controls.canMove() && closestTerminal != null) {
 			EmancipationEditor editor = closestTerminal.GetComponent<EmancipationEditor> ();
-			if (!controls.isSitting() && Input.GetKeyDown (KeyCode.E)) {
+			if (!controls.isSitting() && Input.GetKeyDown (KeyCode.E) && controls.isCanSit()) {
 				editor.loadNewPage ();
 				editor.getInputText().setEditing();
 				controls.sit();
@@ -32,6 +32,16 @@ public class InteractableController {
 				controls.getUp();
 				editor.getOutputText().setCanInput(false);
 			}
+		}
+	}
+
+	public void forceTerminalQuit(PlayerControls controls) {
+		GameObject closestTerminal = getClosestTerminal ();
+		if (controls.canMove () && closestTerminal != null) {
+			EmancipationEditor editor = closestTerminal.GetComponent<EmancipationEditor> ();
+			editor.getInputText ().setPending ();
+			controls.getUp ();
+			editor.getOutputText ().setCanInput (false);
 		}
 	}
 

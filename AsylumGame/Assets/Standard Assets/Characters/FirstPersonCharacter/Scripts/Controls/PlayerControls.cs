@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class PlayerControls : MonoBehaviour {
 
 	private InteractableController interactableControl;
+	private bool canSit;
 
 	void Start() {
 		interactableControl = new InteractableController ();
@@ -12,6 +13,14 @@ public class PlayerControls : MonoBehaviour {
 
 	void Update () {
 		interactableControl.interactWithTerminal (GetComponent<PlayerControls>());
+	}
+
+	public void setCanSit(bool canSit) {
+		this.canSit = canSit;
+	}
+
+	public bool isCanSit() {
+		return canSit;
 	}
 
 	public void sit() {

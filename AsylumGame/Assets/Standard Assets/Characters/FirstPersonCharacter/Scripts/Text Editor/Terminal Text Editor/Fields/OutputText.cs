@@ -86,7 +86,7 @@ public class OutputText : MonoBehaviour {
 	}
 
 	private void writeInputCharacter() {
-		for(int i = 0; i < charByKeypress && currentCharIndex <= text.Length; ++i) {
+		for(int i = 0; i < charByKeypress && currentCharIndex < text.Length; ++i) {
 			writeCharacter ();
 		}
 	}
