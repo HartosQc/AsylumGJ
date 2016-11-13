@@ -21,8 +21,9 @@ public class InteractableController {
 	public void interactWithTerminal(PlayerControls controls) {
 		GameObject closestTerminal = getClosestTerminal ();
 		if (controls.canMove() && closestTerminal != null) {
-			Editor editor = closestTerminal.GetComponent<Editor> ();
+			EmancipationEditor editor = closestTerminal.GetComponent<EmancipationEditor> ();
 			if (!controls.isSitting() && Input.GetKeyDown (KeyCode.E)) {
+				editor.loadNewPage ();
 				editor.getInputText().setEditing();
 				controls.sit();
 				editor.getOutputText().setCanInput(true);
