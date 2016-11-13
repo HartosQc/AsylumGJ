@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class PlayerControls : MonoBehaviour {
 
 	private InteractableController interactableControl;
-	private bool canSit;
+	private bool canSit = true;
 
 	void Start() {
 		interactableControl = new InteractableController ();
