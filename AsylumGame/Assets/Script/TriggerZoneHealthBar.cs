@@ -5,8 +5,13 @@ public class TriggerZoneHealthBar : MonoBehaviour {
 
     //initialisator
     public float dommage;
+    public bool isDoubleBarGestion;
+    public bool isBalecheBar; // give one bar and heal an other
+    
+    public bool isIncreaceWithTime;
     public bool isDommaging;
-    public GameObject affectedHealtBar;
+    public GameObject affectedHPBar1;
+    public GameObject affectedHpBar2;
     private bool isStop = false;
 
     private float timeCounter = 0;
@@ -14,12 +19,7 @@ public class TriggerZoneHealthBar : MonoBehaviour {
 
     void Update()
     {
-        //if (timeCounter > timeFix + 1)
-        //{
-        //    keypress();
-        //    timeFix = timeCounter;
-        //}
-        //timeCounter = timeCounter + Time.deltaTime;
+        
     }
 
     // activer le take / heal Dommage 
@@ -36,18 +36,56 @@ public class TriggerZoneHealthBar : MonoBehaviour {
 
     void FixedUpdate()
     {
-        if (timeCounter > timeFix + 1)
+        if (isIncreaceWithTime)
+        {
+            if (timeCounter > timeFix + 1)
+            {
+                keypress();
+                timeFix = timeCounter;
+            }
+            timeCounter = timeCounter + Time.deltaTime;
+        }
+        
+    }
+
+    private void dommageGestion(bool orrintation) {
+        if (isBalecheBar)
+        {
+            if (isDoubleBarGestion && orrintation)
+            {
+                dmgAndHeal(affectedHPBar1, true);
+                dmgAndHeal(affectedHpBar2, false);
+            }
+            else if (isDoubleBarGestion && !orrintation)
+            {
+                dmgAndHeal(affectedHPBar1, false);
+                dmgAndHeal(affectedHpBar2, true);
+            }    
+        }
+        else
         {
             keypress();
-            timeFix = timeCounter;
         }
-        timeCounter = timeCounter + Time.deltaTime;
+        
+    }
+
+    private void dmgAndHeal(GameObject that, bool dif) {
+        if (dif)
+        {
+            HealthBar other = (HealthBar)affectedHPBar1.GetComponent(typeof(HealthBar));
+            other.healDommage(dommage);
+        }
+        else
+        {
+            HealthBar other = (HealthBar)affectedHPBar1.GetComponent(typeof(HealthBar));
+            other.takeDommage(dommage);
+        }
     }
 
     private void keypress() {
         if (!isStop)
         {
-            HealthBar other = (HealthBar)affectedHealtBar.GetComponent(typeof(HealthBar));
+            HealthBar other = (HealthBar)affectedHPBar1.GetComponent(typeof(HealthBar));
             other.healDommage(dommage);
         }
        
@@ -55,8 +93,11 @@ public class TriggerZoneHealthBar : MonoBehaviour {
 
     private void OnTriggerStay(Collider col) {
         if (col.tag == "player") {
-            HealthBar other = (HealthBar)affectedHealtBar.GetComponent(typeof(HealthBar));
-            other.healDommage(dommage);
-        }     
+            dommageGestion(true);
+        }
+        else
+        {
+            dommageGestion(false);
+        }
     }
 }
