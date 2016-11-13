@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Editor : MonoBehaviour {
+public abstract class Editor : MonoBehaviour {
 
 	public GameObject inputGameObject;
 	public GameObject outputGameObject;
