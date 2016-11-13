@@ -120,7 +120,12 @@ public class OutputText : MonoBehaviour {
 	private string getCurrentWord() {
 		string currentWord = "";
 		if (getCurrentChar() != " ") {
-			currentWord = text.Substring(currentCharIndex, text.IndexOf(" ",currentCharIndex) - currentCharIndex);
+			int endWordIndex = text.IndexOf (" ", currentCharIndex);
+			if (endWordIndex > 0) {
+				currentWord = text.Substring(currentCharIndex, text.IndexOf(" ",currentCharIndex) - currentCharIndex);
+			} else {
+				currentWord = text.Substring(currentCharIndex, text.Length - currentCharIndex);
+			}
 		}
 		indexInWord = 0;
 		return currentWord;
@@ -130,5 +135,7 @@ public class OutputText : MonoBehaviour {
 		mesh.text = "";
 		word = "";
 		currentCharIndex = 0;
+		lineNumber = 0;
+		indexInWord = 0;
 	}
 }

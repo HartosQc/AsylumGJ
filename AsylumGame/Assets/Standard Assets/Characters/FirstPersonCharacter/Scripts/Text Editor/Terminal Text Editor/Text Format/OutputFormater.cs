@@ -35,7 +35,7 @@ public class OutputFormater : MonoBehaviour {
 
 	public bool isWordToLarge(string text, string word) {
 		int charLeft = lineLenght - (text.Length % lineLenght);
-		return word.Length >= charLeft;
+		return word.Length >= charLeft || charLeft <= 0 || charLeft == 26;
 	}
 
 	private bool isEndLine(string text) {
