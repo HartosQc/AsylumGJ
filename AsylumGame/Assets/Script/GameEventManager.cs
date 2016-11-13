@@ -39,9 +39,7 @@ public class GameEventManager : MonoBehaviour {
 
         GameObject someEvent = eventList[x];
         ScaryEvent thisEvent = (ScaryEvent)someEvent.GetComponent(typeof(ScaryEvent));
-        Debug.Log(x);
-        Debug.Log(eventList.Count);
-        Debug.Log(thisEvent);
+        
         thisEvent.playEvent();
     }  
 
