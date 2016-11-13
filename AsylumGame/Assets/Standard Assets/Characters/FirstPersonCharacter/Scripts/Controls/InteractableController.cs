@@ -25,9 +25,11 @@ public class InteractableController {
 			if (!controls.isSitting() && Input.GetKeyDown (KeyCode.E)) {
 				editor.getInputText().setEditing();
 				controls.sit();
+				editor.getOutputText().setCanInput(true);
 			} else if (controls.isSitting() && Input.GetKeyDown (KeyCode.Q)) {
 				editor.getInputText().setPending();
 				controls.getUp();
+				editor.getOutputText().setCanInput(false);
 			}
 		}
 	}

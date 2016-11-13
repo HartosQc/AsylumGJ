@@ -13,10 +13,10 @@ public class OutputText : MonoBehaviour {
 	private string word;
 	private int currentCharIndex = 0;
 	private int indexInWord;
-
 	private bool autoStarted;
 	private int lineNumber;
 	private TextMesh mesh;
+	private bool canInput;
 
 	public void Start() {
 		mesh = GetComponent<TextMesh> ();
@@ -25,6 +25,10 @@ public class OutputText : MonoBehaviour {
 
 	public void Update() {
 		checkForInput ();
+	}
+
+	public void setCanInput(bool input) {
+		canInput = input;
 	}
 
 	public void setTextFromFile(string filename) {
@@ -41,7 +45,7 @@ public class OutputText : MonoBehaviour {
 	}
 
 	IEnumerator autoWritingLoop() {
-		while (auto) {
+		while (auto && canInput) {
 			if (isAllTextWritten ()) {
 				resetText ();
 			} else {
@@ -49,6 +53,7 @@ public class OutputText : MonoBehaviour {
 			}
 			yield return new WaitForSeconds (timeByCharacter);
 		}
+		autoStarted = false;
 	}
 
 	private void readFile(string filename) {
@@ -57,13 +62,15 @@ public class OutputText : MonoBehaviour {
 	}
 
 	private void checkForInput() {
-		if (!auto) {
-			if (Input.anyKeyDown && !isAllTextWritten())
-				writeCharacter ();
-		} else {
-			if (!autoStarted) {
-				autoStarted = true;
-				StartCoroutine(autoWritingLoop());
+		if (canInput) {
+			if (!auto) {
+				if (Input.anyKeyDown && !Input.GetKeyDown(KeyCode.Q) && !isAllTextWritten())
+					writeCharacter ();
+			} else {
+				if (!autoStarted) {
+					autoStarted = true;
+					StartCoroutine(autoWritingLoop());
+				}
 			}
 		}
 	}
