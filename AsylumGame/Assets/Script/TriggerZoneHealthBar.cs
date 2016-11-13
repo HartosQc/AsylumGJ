@@ -45,8 +45,12 @@ public class TriggerZoneHealthBar : MonoBehaviour {
     }
 
     private void keypress() {
-        HealthBar other = (HealthBar)affectedHealtBar.GetComponent(typeof(HealthBar));
-        other.healDommage(dommage);
+        if (!isStop)
+        {
+            HealthBar other = (HealthBar)affectedHealtBar.GetComponent(typeof(HealthBar));
+            other.healDommage(dommage);
+        }
+       
     }
 
     private void OnTriggerStay(Collider col) {

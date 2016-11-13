@@ -56,8 +56,6 @@ public class HealthBar : MonoBehaviour {
             hitpoint += damage;
     }
 
- 
-
     // verificator
     private bool verificatorHealt() {
         if (isTrigger)
@@ -106,31 +104,39 @@ public class HealthBar : MonoBehaviour {
         GameObject[] reds;
         reds = GameObject.FindGameObjectsWithTag("WorkZone");
         foreach (GameObject r in reds) {
+            Debug.Log("prout");
             TriggerZoneHealthBar dommagePlate = (TriggerZoneHealthBar)r.GetComponent(typeof(TriggerZoneHealthBar));
             if (input)
             {
+                Debug.Log("1");
                 dommagePlate.activeProgress();
             }
             else
             {
+                Debug.Log("2");
                 dommagePlate.desactiveProgress();
             }
             
         }
-
+        Debug.Log(reds[0]);
+        Debug.Log(reds[1]);
         reds = GameObject.FindGameObjectsWithTag("LazyZone");
         foreach (GameObject r in reds)
         {
             TriggerZoneHealthBar dommagePlate = (TriggerZoneHealthBar)r.GetComponent(typeof(TriggerZoneHealthBar));
             if (input)
             {
+                Debug.Log("1");
                 dommagePlate.activeProgress();
             }
             else
             {
+                Debug.Log("2");
                 dommagePlate.desactiveProgress();
             }
         }
+
+        Debug.Log("interactPlate(bool input)");
     }
 
     private void lunchEvent() {
