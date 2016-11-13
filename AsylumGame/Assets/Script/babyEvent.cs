@@ -5,14 +5,12 @@ public class babyEvent : MonoBehaviour {
 
 	bool eventStart = false;
 	bool eventOver = false;
-	InstanciateRnd instantiateRnd;
 	slideBack slide;
 	// Use this for initialization
 	void Start () 
 	{
-		instantiateRnd = GetComponent<InstanciateRnd> ();
 		slide = GetComponent<slideBack> ();
-		EventStart ();
+		//EventStart ();
 	}
 	
 	// Update is called once per frame
@@ -39,6 +37,7 @@ public class babyEvent : MonoBehaviour {
 	void EventStart()
 	{
 		eventStart = true;	
+		eventOver = false;
 	}
 
 	void EventOver()

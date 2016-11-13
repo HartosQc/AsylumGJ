@@ -20,7 +20,7 @@ public class ScaleBox : MonoBehaviour {
 		box = GameObject.FindGameObjectWithTag ("Box");
 		lightFadeInOut = GetComponent<LightFadeInOut> ();
 		setAudio(false);
-		EventStart ();
+		//EventStart ();
 	}
 	
 	// Update is called once per frame
