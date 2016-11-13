@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class GameEventManager : MonoBehaviour {
 
+    public bool RandomEvent;
+
     public List<GameObject> eventList = new List<GameObject>();
 
     // Use this for initialization
@@ -17,6 +19,11 @@ public class GameEventManager : MonoBehaviour {
 	}
 
     public void activeFirstEvent() {
+        if (RandomEvent)
+        {
+            startRandomEvent();
+        }
+        else { 
         GameObject someEvent = eventList[0];
         ScaryEvent thisEvent = (ScaryEvent)someEvent.GetComponent(typeof(ScaryEvent));
 
@@ -24,9 +31,18 @@ public class GameEventManager : MonoBehaviour {
         thisEvent.playEvent();
 
         eventList.Remove(someEvent);
+        }
     }
 
-  
+    public void startRandomEvent() {   
+        int x = Random.Range(0,eventList.Count);
+
+        GameObject someEvent = eventList[0];
+        ScaryEvent thisEvent = (ScaryEvent)someEvent.GetComponent(typeof(ScaryEvent));
+
+        Debug.Log(thisEvent);
+        thisEvent.playEvent();
+    }  
 
 
 }

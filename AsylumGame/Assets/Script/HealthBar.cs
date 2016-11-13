@@ -7,6 +7,8 @@ public class HealthBar : MonoBehaviour {
     //initialisator
     public float maxHp;
     public bool progressBar;
+    public bool RendomProgresse;
+    public bool isunstoppable;
     private bool isTrigger = false;
     private bool isLunch = false; 
     
@@ -15,6 +17,8 @@ public class HealthBar : MonoBehaviour {
     
 
     //parameter of Helthbar
+    public float minHP;
+    public float maxHP;
     private float hitpoint;
     private float maxHitpoint;
 
@@ -24,13 +28,23 @@ public class HealthBar : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        if (maxHp > 0)
+        if (!RendomProgresse)
         {
-            maxHitpoint = maxHp;
+            if (maxHp > 0)
+            {
+                maxHitpoint = maxHp;
+            }
+            else
+            {
+                maxHitpoint = 100;
+            }
         }
         else {
-            maxHitpoint = 100;
+            float x = Random.Range(minHP, maxHP);
+            maxHitpoint = x;
+            maxHp = x;
         }
+        
 
         hitpoint = 0;
         UpdateHealthBar();
@@ -56,6 +70,12 @@ public class HealthBar : MonoBehaviour {
             hitpoint += damage;
     }
 
+    private void rendFloat() {
+        float x = Random.Range(minHP, maxHP);
+        maxHitpoint = x;
+        maxHp = x;
+    }
+
     // verificator
     private bool verificatorHealt() {
         if (isTrigger)
@@ -65,7 +85,7 @@ public class HealthBar : MonoBehaviour {
         else
         {
             if (progressBar) {
-                if (maxHitpoint == hitpoint)
+                if (maxHitpoint <= hitpoint)
                 {
                     isTrigger = true;
                     Debug.Log("FullHealt");
@@ -140,9 +160,14 @@ public class HealthBar : MonoBehaviour {
     }
 
     private void lunchEvent() {
-
-        interactPlate(false);
-
+        if (!isunstoppable)
+        {
+            interactPlate(false);
+        }
+        else {
+            rendFloat();
+        }
+        
         isLunch = true;
         GameEventManager other = (GameEventManager)GameEventManager.GetComponent(typeof(GameEventManager));
         other.activeFirstEvent();
@@ -160,6 +185,7 @@ public class HealthBar : MonoBehaviour {
         {
             
             if (isRollback) {
+                Debug.Log("test?");
                 rollbackBar();
             }
 
