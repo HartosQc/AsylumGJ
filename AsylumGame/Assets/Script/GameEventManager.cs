@@ -26,6 +26,7 @@ public class GameEventManager : MonoBehaviour {
         eventList.Remove(someEvent);
     }
 
+  
 
 
 }

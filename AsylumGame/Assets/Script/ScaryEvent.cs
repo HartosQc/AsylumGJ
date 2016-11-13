@@ -9,12 +9,14 @@ abstract public class ScaryEvent : MonoBehaviour {
 
     public void destroyEvent() { }
 
-    public void reactivePlate() {
+    protected void reactivePlate() {
         
         GameObject[] reds;
         reds = GameObject.FindGameObjectsWithTag("GameMasterHB");
+        Debug.Log(reds[0]);
         foreach (GameObject r in reds)
         {
+            
             HealthBar healthBar = (HealthBar)r.GetComponent(typeof(HealthBar));
             healthBar.interactPlate(true);
         }
