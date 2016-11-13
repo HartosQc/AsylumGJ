@@ -11,12 +11,13 @@ public class ScaleBox : MonoBehaviour {
 	bool isScalingUp = false;
 
 	public Light[] lightTab;
-
+	public GameObject audioObject;
 	LightFadeInOut lightFadeInOut;
 	// Use this for initialization
 	void Start () {
 		box = GameObject.FindGameObjectWithTag ("Box");
 		lightFadeInOut = GetComponent<LightFadeInOut> ();
+		audioObject.SetActive (false);
 		EventStart ();
 	}
 	
@@ -70,6 +71,7 @@ public class ScaleBox : MonoBehaviour {
 
 	public void EventStart()
 	{
+		audioObject.SetActive (true);
 		isScalingDown = true;
 		isScalingUp = false;
 	}

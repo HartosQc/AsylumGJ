@@ -50,7 +50,6 @@ public class OutputFormater : MonoBehaviour {
 
 	private string formatText(string text, string word) {
 		string newText = text;
-		Debug.Log (word.Length);
 		if (isWordToLarge (text, word) && !isCompact) {
 			newText = addLine (text);
 		} else if (isEndLine (text) && isCompact) {
