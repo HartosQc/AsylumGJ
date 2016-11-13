@@ -6,10 +6,9 @@ public class TriggerZoneHealthBar : MonoBehaviour {
     //initialisator
     public float dommage;
     public bool isDoubleBarGestion;
-    public bool isBalecheBar; // give one bar and heal an other
+    public bool isBalenceBar; // give one bar and heal an other
     
     public bool isIncreaceWithTime;
-    public bool isDommaging;
     public GameObject affectedHPBar1;
     public GameObject affectedHpBar2;
     private bool isStop = false;
@@ -49,7 +48,7 @@ public class TriggerZoneHealthBar : MonoBehaviour {
     }
 
     private void dommageGestion(bool orrintation) {
-        if (isBalecheBar)
+        if (isBalenceBar)
         {
             if (isDoubleBarGestion && orrintation)
             {
@@ -64,7 +63,8 @@ public class TriggerZoneHealthBar : MonoBehaviour {
         }
         else
         {
-            keypress();
+            dmgAndHeal(affectedHPBar1, true);
+            dmgAndHeal(affectedHpBar2, false);
         }
         
     }
@@ -72,12 +72,12 @@ public class TriggerZoneHealthBar : MonoBehaviour {
     private void dmgAndHeal(GameObject that, bool dif) {
         if (dif)
         {
-            HealthBar other = (HealthBar)affectedHPBar1.GetComponent(typeof(HealthBar));
+            HealthBar other = (HealthBar)that.GetComponent(typeof(HealthBar));
             other.healDommage(dommage);
         }
         else
         {
-            HealthBar other = (HealthBar)affectedHPBar1.GetComponent(typeof(HealthBar));
+            HealthBar other = (HealthBar)that.GetComponent(typeof(HealthBar));
             other.takeDommage(dommage);
         }
     }
