@@ -12,6 +12,7 @@ public class babyEvent : MonoBehaviour {
 	{
 		instantiateRnd = GetComponent<InstanciateRnd> ();
 		slide = GetComponent<slideBack> ();
+		EventStart ();
 	}
 	
 	// Update is called once per frame
