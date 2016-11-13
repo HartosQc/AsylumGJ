@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ScaleBox : MonoBehaviour {
+public class ScaleBox : ScaryEvent {
 
 	Vector3 minScale = new Vector3 (0.1f, 0.1f, 0.1f);
 	Vector3 maxScale = new Vector3 (1f, 1f, 1f);
@@ -48,7 +48,7 @@ public class ScaleBox : MonoBehaviour {
 			}
 			if (scalingUp ()) 
 			{
-				EventDestroy ();			
+				destroyEvent ();			
 			}
 		}
 
@@ -83,7 +83,7 @@ public class ScaleBox : MonoBehaviour {
 		return false;
 	}
 
-	public void EventStart()
+	public override void playEvent()
 	{
 		setAudio(true);
 		isScalingDown = true;
@@ -98,8 +98,9 @@ public class ScaleBox : MonoBehaviour {
 		isScalingUp = true;
 	}
 
-	void EventDestroy()
+	public override void destroyEvent()
 	{
+		base.destroyEvent ();
 			Debug.Log ("Wall Event Over... Destroy");
 			box.transform.localScale = maxScale;
 			Destroy (this.gameObject);

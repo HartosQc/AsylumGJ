@@ -1,19 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class babyEvent : MonoBehaviour {
+public class babyEvent : ScaryEvent {
 
 	public GameObject babyNormal;
-
 	bool eventStart = false;
 	bool eventOver = false;
 	slideBack slide;
 	// Use this for initialization
 	void Start () 
 	{
-		
 		slide = GetComponent<slideBack> ();
-		EventStart ();
+		babyNormal.SetActive (false);
 	}
 	
 	// Update is called once per frame
@@ -28,7 +26,7 @@ public class babyEvent : MonoBehaviour {
 		{
 			if (slide.slideDown ()) 
 			{
-				EventDestroy ();
+				destroyEvent ();
 			}
 		}
 		if (Input.GetKeyDown (KeyCode.U)) 
@@ -41,7 +39,7 @@ public class babyEvent : MonoBehaviour {
 		}
 	}
 
-	void EventStart()
+	public override void playEvent()
 	{
 		babyNormal.SetActive (true);
 		eventStart = true;	
@@ -56,8 +54,9 @@ public class babyEvent : MonoBehaviour {
 		babyNormal.SetActive (false);
 	}
 
-	void EventDestroy()
+	public override void destroyEvent()
 	{
+		base.destroyEvent ();
 		Destroy (this.gameObject);
 	}
 

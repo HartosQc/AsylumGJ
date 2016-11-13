@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LightEvent : MonoBehaviour {
+public class LightEvent : ScaryEvent {
 
 	// Use this for initialization
 	LightFadeInOut lightFadeInOut;
@@ -15,7 +15,7 @@ public class LightEvent : MonoBehaviour {
 	{
 		lightFadeInOut = GetComponent<LightFadeInOut> ();
 		clipGenerator.SetActive (false);
-		EventStart ();
+		//playEvent ();
 
 	}
 	
@@ -34,7 +34,7 @@ public class LightEvent : MonoBehaviour {
 			foreach (Light light in lightTab) {
 				
 				if (lightFadeInOut.fadeIn (light)) {
-					EventDestroy ();
+					destroyEvent ();
 				}
 			}
 			lightFadeInOut.fadeOut (pointLight,0f);
@@ -48,7 +48,7 @@ public class LightEvent : MonoBehaviour {
 		}
 	}
 
-	public void EventStart()
+	public override void playEvent()
 	{
 		eventIsStarted = true;
 		clipGenerator.SetActive (true);
@@ -61,13 +61,14 @@ public class LightEvent : MonoBehaviour {
 		clipGenerator.SetActive (false);
 	}
 
-	void EventDestroy()
+	public override void destroyEvent()
 	{
 		foreach (Light light in lightTab) {
 
 			light.intensity = 3.2f;
 		}
 		Debug.Log ("LightEvent Destroy");
+		base.destroyEvent ();
 		Destroy (this.gameObject);
 	}
 

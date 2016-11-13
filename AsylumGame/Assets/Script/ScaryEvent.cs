@@ -7,7 +7,7 @@ abstract public class ScaryEvent : MonoBehaviour {
         Debug.Log("boo");
     }
 
-    public void destroyEvent() { }
+	public virtual void destroyEvent() { reactivePlate (); }
 
     protected void reactivePlate() {
         

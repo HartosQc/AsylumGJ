@@ -138,8 +138,6 @@ public class HealthBar : MonoBehaviour {
             }
             
         }
-        Debug.Log(reds[0]);
-        Debug.Log(reds[1]);
         reds = GameObject.FindGameObjectsWithTag("LazyZone");
         foreach (GameObject r in reds)
         {

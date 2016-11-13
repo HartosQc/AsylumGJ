@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class moneyEvent : MonoBehaviour {
+public class moneyEvent : ScaryEvent {
 
 	public GameObject door;
 
@@ -11,7 +11,7 @@ public class moneyEvent : MonoBehaviour {
 	void Start () 
 	{
 		door.SetActive(false);
-		startEvent ();
+		//playEvent ();
 	}
 	
 	// Update is called once per frame
@@ -20,13 +20,14 @@ public class moneyEvent : MonoBehaviour {
 	
 	}
 
-	public void startEvent()
+	public override void playEvent()
 	{
 		door.SetActive(true);
 	}
 
-	public void destroyEvent()
+	public override void destroyEvent()
 	{
+		base.destroyEvent ();
 		Destroy (this.gameObject);
 	}
 }

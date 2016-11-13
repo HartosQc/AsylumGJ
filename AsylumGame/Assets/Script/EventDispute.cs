@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EventDispute : MonoBehaviour {
+public class EventDispute : ScaryEvent {
 
 	bool eventIsStarted = false;
 	bool eventIsOver = false;
@@ -13,7 +13,8 @@ public class EventDispute : MonoBehaviour {
 	void Start () 
 	{
 		slide = GetComponent<slideBack> ();
-		EventStart();
+		disputeAudio.SetActive (false);
+		//playEvent();
 	
 	}
 	
@@ -31,14 +32,15 @@ public class EventDispute : MonoBehaviour {
 
 		if (eventIsOver) {
 			if (slide.slideDown () && !disputeAudio.GetComponent<AudioSource>().isPlaying) {
-				EventDestroy ();
+				destroyEvent ();
 			}	
 		}	
 	}
 
-	public void EventStart()
+	public override void playEvent()
 	{
 		hearth.SetActive (true);
+		disputeAudio.SetActive (true);
 		eventIsStarted = true;
 		eventIsOver = false;
 	}
@@ -50,8 +52,9 @@ public class EventDispute : MonoBehaviour {
 
 	}
 
-	void EventDestroy()
+	public override void destroyEvent()
 	{
+		base.destroyEvent ();
 		Debug.Log ("Dispute Event Destroy");
 		Destroy (this.gameObject);
 
