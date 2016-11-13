@@ -8,20 +8,15 @@ public class OutputFormater : MonoBehaviour {
 	public bool isCompact = false;
 
 	public string addCharacter(string text, string word, string character, int charCount) {
-		string newText = formatText (text, word, charCount) + character;
-		return newText;
+		return formatText (text, word, charCount) + character;
 	}
 
 	public string addCharacter(string text, string character) {
-		string newText = text;
-		newText += character;
-		return newText;
+		return text += character;
 	}
 
 	public string addWord(string text, string word, int charCount) {
-		string newText = formatText (text, word, charCount) + word;
-		return newText;
-		
+		return  formatText (text, word, charCount) + word;
 	}
 
 	public string addLine(string text) {
@@ -54,12 +49,10 @@ public class OutputFormater : MonoBehaviour {
 	private string formatText(string text, string word, int charCount) {
 		string newText = text;
 		if (isWordToLarge (text, word, charCount) && !isCompact) {
-			newText = addLine (text);
-		}/* else if (isEndLine (text) && isCompact) {
-			newText = addLine (text);
-		}*/
+			newText = addLine (newText);
+		}
 		if(isScreenFull(text)) {
-			newText = removeFirstLine (text);
+			newText = removeFirstLine (newText);
 		}
 		return newText;
 	}
