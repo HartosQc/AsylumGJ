@@ -9,8 +9,10 @@ public class FlickeringText : MonoBehaviour {
 	public string character = "_";
 	private Thread flickeringThread;
 	private bool caracterDisplayed;
+	private TextMesh mesh;
 
 	void Start () {
+		mesh = GetComponent<TextMesh> ();
 		StartCoroutine(flickeringLoop());
 	}
 
@@ -26,7 +28,6 @@ public class FlickeringText : MonoBehaviour {
 	}
 
 	private void flickerText(string character) {
-		TextMesh mesh = GetComponent<TextMesh> ();
 		if (isCaracterDisplayed()) {
 			mesh.text = mesh.text.Substring (0, mesh.text.Length - 1);
 		} else {
@@ -35,6 +36,6 @@ public class FlickeringText : MonoBehaviour {
 	}
 
 	private bool isCaracterDisplayed() {
-		return GetComponent<TextMesh> ().text.EndsWith(character);
+		return mesh.text.EndsWith(character);
 	}
 }

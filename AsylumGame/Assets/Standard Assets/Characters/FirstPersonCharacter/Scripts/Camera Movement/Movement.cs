@@ -21,11 +21,13 @@ public class Movement : MonoBehaviour {
 	}
 
 	public void move(Vector3 movement) {
-		startMarker = transform;
-		endMarker = transform.position + movement;
-		startTime = Time.time;
-		journeyLength = Vector3.Distance(startMarker.position, endMarker);
-		moving = true;
+		if (!moving) {
+			startMarker = transform;
+			endMarker = transform.position + movement;
+			startTime = Time.time;
+			journeyLength = Vector3.Distance(startMarker.position, endMarker);
+			moving = true;
+		}
 	}
 
 	public bool isMoving() {
