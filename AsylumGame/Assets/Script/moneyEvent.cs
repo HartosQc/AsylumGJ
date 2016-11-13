@@ -6,11 +6,12 @@ public class moneyEvent : MonoBehaviour {
 	public GameObject door;
 
 
+
 	// Use this for initialization
 	void Start () 
 	{
 		door.SetActive(false);
-		//startEvent ();
+		startEvent ();
 	}
 	
 	// Update is called once per frame
