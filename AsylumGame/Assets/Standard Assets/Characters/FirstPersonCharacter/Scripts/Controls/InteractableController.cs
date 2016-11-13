@@ -21,12 +21,12 @@ public class InteractableController {
 	public void interactWithTerminal(PlayerControls controls) {
 		GameObject closestTerminal = getClosestTerminal ();
 		if (controls.canMove() && closestTerminal != null) {
-			ScreenTextEditor editor = closestTerminal.GetComponent<ScreenTextEditor> ();
+			Editor editor = closestTerminal.GetComponent<Editor> ();
 			if (!controls.isSitting() && Input.GetKeyDown (KeyCode.E)) {
-				editor.setEditing();
+				editor.getInputText().setEditing();
 				controls.sit();
 			} else if (controls.isSitting() && Input.GetKeyDown (KeyCode.Q)) {
-				editor.setPending();
+				editor.getInputText().setPending();
 				controls.getUp();
 			}
 		}

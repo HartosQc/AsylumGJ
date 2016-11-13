@@ -11,7 +11,7 @@ public class PlayerControls : MonoBehaviour {
 	}
 
 	void Update () {
-		interactableControl.interactWithTerminal (this);
+		interactableControl.interactWithTerminal (GetComponent<PlayerControls>());
 	}
 
 	public void sit() {
