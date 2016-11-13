@@ -3,6 +3,7 @@ using System.Collections;
 
 public class InputText : MonoBehaviour {
 
+	private string completed = "<File Complete>\n";
 	private TextMesh mesh;
 	private bool ended;
 
@@ -16,5 +17,9 @@ public class InputText : MonoBehaviour {
 
 	public void setPending() {
 		mesh.text = Words.EDITABLE + KeyCode.E + Words.ENTER;
+	}
+		
+	public void showFileComplete() {
+		mesh.text = mesh.text.Insert(0, completed);
 	}
 }

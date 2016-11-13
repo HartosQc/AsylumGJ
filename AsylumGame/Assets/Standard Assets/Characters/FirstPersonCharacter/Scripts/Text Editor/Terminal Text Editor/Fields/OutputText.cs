@@ -7,7 +7,6 @@ public class OutputText : MonoBehaviour {
 	public bool auto;
 	public int charByKeypress = 1;
 	public float timeByCharacter = 2.4f;
-	public string fileName;
 
 	private string text = "";
 	private string word;
@@ -17,27 +16,36 @@ public class OutputText : MonoBehaviour {
 	private int lineNumber;
 	private TextMesh mesh;
 	private bool canInput;
+	private bool repeat;
 
 	public void Start() {
 		mesh = GetComponent<TextMesh> ();
-		setTextFromFile (fileName);
 	}
+
 
 	public void Update() {
 		checkForInput ();
+	}
+
+	public void setRepeat(bool repeat) {
+		this.repeat = repeat;
 	}
 
 	public void setCanInput(bool input) {
 		canInput = input;
 	}
 
+	public void setAuto(bool auto) {
+		this.auto = auto;
+	}
+
 	public void setTextFromFile(string filename) {
-		readFile (filename);
 		resetText ();
+		text = readFile (filename);
 	}
 
 	public void addTextFromFile(string filename) {
-		readFile (filename);
+		text += readFile (filename);
 	}
 
 	public bool isAllTextWritten() {
@@ -47,7 +55,9 @@ public class OutputText : MonoBehaviour {
 	IEnumerator autoWritingLoop() {
 		while (auto && canInput) {
 			if (isAllTextWritten ()) {
-				resetText ();
+				if (repeat) {
+					resetText ();
+				}
 			} else {
 				writeAutoCharacter ();
 			}
@@ -56,16 +66,16 @@ public class OutputText : MonoBehaviour {
 		autoStarted = false;
 	}
 
-	private void readFile(string filename) {
+	private string readFile(string filename) {
 		FileReader reader = new FileReader();
-		text = reader.readFile(fileName);
+		return reader.readFile(filename);
 	}
 
 	private void checkForInput() {
 		if (canInput) {
 			if (!auto) {
 				if (Input.anyKeyDown && !Input.GetKeyDown(KeyCode.Q) && !isAllTextWritten())
-					writeCharacter ();
+					writeInputCharacter ();
 			} else {
 				if (!autoStarted) {
 					autoStarted = true;
@@ -75,20 +85,24 @@ public class OutputText : MonoBehaviour {
 		}
 	}
 
-	private void writeCharacter() {
-		for(int i = 0; i < charByKeypress && currentCharIndex <= text.Length; ++i) {
-			if (indexInWord == word.Length || currentCharIndex == 0) {
-				word = getCurrentWord ();
-				mesh.text = GetComponent<OutputFormater> ().addCharacter (mesh.text, word, getCurrentChar ());
-			} else {
-				++indexInWord;
-				mesh.text = GetComponent<OutputFormater> ().addCharacter (mesh.text, getCurrentChar ());
-			}
-			++currentCharIndex;
+	private void writeInputCharacter() {
+		for(int i = 0; i < charByKeypress && currentCharIndex < text.Length; ++i) {
+			writeCharacter ();
 		}
 	}
 
 	private void writeAutoCharacter() {
+		if (indexInWord == word.Length || currentCharIndex == 0) {
+			word = getCurrentWord ();
+			mesh.text = GetComponent<OutputFormater> ().addCharacter (mesh.text, word, getCurrentChar ());
+		} else {
+			++indexInWord;
+			mesh.text = GetComponent<OutputFormater> ().addCharacter (mesh.text, getCurrentChar ());
+		}
+		++currentCharIndex;
+	}
+
+	private void writeCharacter() {
 		if (indexInWord == word.Length || currentCharIndex == 0) {
 			word = getCurrentWord ();
 			mesh.text = GetComponent<OutputFormater> ().addCharacter (mesh.text, word, getCurrentChar ());
@@ -106,7 +120,12 @@ public class OutputText : MonoBehaviour {
 	private string getCurrentWord() {
 		string currentWord = "";
 		if (getCurrentChar() != " ") {
-			currentWord = text.Substring(currentCharIndex, text.IndexOf(" ",currentCharIndex) - currentCharIndex);
+			int endWordIndex = text.IndexOf (" ", currentCharIndex);
+			if (endWordIndex > 0) {
+				currentWord = text.Substring(currentCharIndex, text.IndexOf(" ",currentCharIndex) - currentCharIndex);
+			} else {
+				currentWord = text.Substring(currentCharIndex, text.Length - currentCharIndex);
+			}
 		}
 		indexInWord = 0;
 		return currentWord;
@@ -116,5 +135,7 @@ public class OutputText : MonoBehaviour {
 		mesh.text = "";
 		word = "";
 		currentCharIndex = 0;
+		lineNumber = 0;
+		indexInWord = 0;
 	}
 }
