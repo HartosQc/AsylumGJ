@@ -5,6 +5,7 @@ public class slideBack : MonoBehaviour {
 
 	GameObject back;
 	public GameObject smoke;
+	bool asInstantiate = false;
 	Vector3 targetPos = new Vector3(0,70,50);
 	Vector3 initPos;
 	float slideTime = 0.1f;
@@ -31,12 +32,12 @@ public class slideBack : MonoBehaviour {
 		if (back.transform.position.y <= 50) 
 		{
 			//Animation Over
-			GameObject smokeClone = smoke;
-			Instantiate (smoke);
-			Destroy (smokeClone, 5f);
+			instanciateSmoke();
+			//Destroy (smoke, 5f);
 			back.transform.position = initPos;
 			return true;
 		}
+		asInstantiate = false;
 		return false;
 	}
 
@@ -44,7 +45,17 @@ public class slideBack : MonoBehaviour {
 	{
 		back.transform.position = Vector3.Lerp(back.transform.position,targetPos,slideTime * Time.deltaTime);
 
-		Debug.Log (back.transform.position.y);
 
+	}
+
+	void instanciateSmoke()
+	{
+		if (!asInstantiate) {
+			GameObject smokeClone = smoke;
+			Instantiate(smokeClone);
+
+			DestroyObject (smokeClone, 5f);
+			asInstantiate = true;
+		}
 	}
 }

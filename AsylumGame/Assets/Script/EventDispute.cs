@@ -5,7 +5,7 @@ public class EventDispute : MonoBehaviour {
 
 	bool eventIsStarted = false;
 	bool eventIsOver = false;
-
+	public GameObject disputeAudio;
 	public GameObject hearth;
 
 	slideBack slide;
@@ -20,13 +20,17 @@ public class EventDispute : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
+		if (disputeAudio.GetComponent<AudioSource>().time > 47f)
+		{
+			EventOver ();
+		}
 
 		if (eventIsStarted) {
 			slide.slideUp ();
 		}
 
 		if (eventIsOver) {
-			if (slide.slideDown ()) {
+			if (slide.slideDown () && !disputeAudio.GetComponent<AudioSource>().isPlaying) {
 				EventDestroy ();
 			}	
 		}	
@@ -48,6 +52,8 @@ public class EventDispute : MonoBehaviour {
 
 	void EventDestroy()
 	{
+		Debug.Log ("Dispute Event Destroy");
 		Destroy (this.gameObject);
+
 	}
 }

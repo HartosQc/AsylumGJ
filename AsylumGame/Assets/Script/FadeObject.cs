@@ -22,11 +22,7 @@ public class FadeObject : MonoBehaviour {
 	void Update () 
 	{
 		distance = Vector3.Distance (player.transform.position, this.transform.position);
-		distance -= 2;//Offset 
-
-	
-
-			updateAlpha ();
+		updateAlpha ();
 
 
 

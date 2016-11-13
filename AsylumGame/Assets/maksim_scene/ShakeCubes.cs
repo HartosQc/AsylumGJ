@@ -3,7 +3,8 @@ using System.Collections;
 
 public class ShakeCubes : MonoBehaviour {
 
-    public float hardLimit;
+    //public float hardLimit;
+	public IntensityOverTime intensityOverTime;
     public float movementPower;
     public float smoothness;
 
@@ -25,13 +26,13 @@ public class ShakeCubes : MonoBehaviour {
         yMove += 1 / smoothness * (Random.value * 2 * movementPower - movementPower);
         zMove += 1 / smoothness * (Random.value * 2 * movementPower - movementPower);
 
-        if (xMove > origPos.x + hardLimit) xMove = origPos.x + hardLimit;
-        if (yMove > origPos.y + hardLimit) yMove = origPos.y + hardLimit;
-        if (zMove > origPos.z + hardLimit) zMove = origPos.z + hardLimit;
+		if (xMove > origPos.x + intensityOverTime.intensity) xMove = origPos.x + intensityOverTime.intensity;
+		if (yMove > origPos.y + intensityOverTime.intensity) yMove = origPos.y + intensityOverTime.intensity;
+		if (zMove > origPos.z + intensityOverTime.intensity) zMove = origPos.z + intensityOverTime.intensity;
 
-        if (xMove < origPos.x - hardLimit) xMove = origPos.x - hardLimit;
-        if (yMove < origPos.y - hardLimit) yMove = origPos.y - hardLimit;
-        if (zMove < origPos.z - hardLimit) zMove = origPos.z - hardLimit;
+		if (xMove < origPos.x - intensityOverTime.intensity) xMove = origPos.x - intensityOverTime.intensity;
+		if (yMove < origPos.y - intensityOverTime.intensity) yMove = origPos.y - intensityOverTime.intensity;
+		if (zMove < origPos.z - intensityOverTime.intensity) zMove = origPos.z - intensityOverTime.intensity;
 
         transform.localPosition = new Vector3(xMove, yMove, zMove);
 
