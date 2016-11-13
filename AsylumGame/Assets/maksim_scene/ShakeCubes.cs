@@ -20,6 +20,7 @@ public class ShakeCubes : MonoBehaviour {
     }
     // Update is called once per frame
     void Update () {
+
         xMove += 1 / smoothness * (Random.value * 2 * movementPower - movementPower);
         yMove += 1 / smoothness * (Random.value * 2 * movementPower - movementPower);
         zMove += 1 / smoothness * (Random.value * 2 * movementPower - movementPower);
