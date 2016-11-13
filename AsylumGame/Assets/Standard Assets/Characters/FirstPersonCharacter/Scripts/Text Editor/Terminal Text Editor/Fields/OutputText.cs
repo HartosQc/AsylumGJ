@@ -92,20 +92,13 @@ public class OutputText : MonoBehaviour {
 	}
 
 	private void writeAutoCharacter() {
-		if (indexInWord == word.Length || currentCharIndex == 0) {
-			word = getCurrentWord ();
-			mesh.text = GetComponent<OutputFormater> ().addCharacter (mesh.text, word, getCurrentChar ());
-		} else {
-			++indexInWord;
-			mesh.text = GetComponent<OutputFormater> ().addCharacter (mesh.text, getCurrentChar ());
-		}
-		++currentCharIndex;
+		writeCharacter ();
 	}
 
 	private void writeCharacter() {
 		if (indexInWord == word.Length || currentCharIndex == 0) {
 			word = getCurrentWord ();
-			mesh.text = GetComponent<OutputFormater> ().addCharacter (mesh.text, word, getCurrentChar ());
+			mesh.text = GetComponent<OutputFormater> ().addCharacter (mesh.text, word, getCurrentChar (), currentCharIndex);
 		} else {
 			++indexInWord;
 			mesh.text = GetComponent<OutputFormater> ().addCharacter (mesh.text, getCurrentChar ());

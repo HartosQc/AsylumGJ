@@ -7,21 +7,16 @@ public class OutputFormater : MonoBehaviour {
 	public int maxLine = 4;
 	public bool isCompact = false;
 
-	public string addCharacter(string text, string word, string character) {
-		string newText = formatText (text, word) + character;
-		return newText;
+	public string addCharacter(string text, string word, string character, int charCount) {
+		return formatText (text, word, charCount) + character;
 	}
 
 	public string addCharacter(string text, string character) {
-		string newText = text;
-		newText += character;
-		return newText;
+		return text += character;
 	}
 
-	public string addWord(string text, string word) {
-		string newText = formatText (text, word) + word;
-		return newText;
-		
+	public string addWord(string text, string word, int charCount) {
+		return  formatText (text, word, charCount) + word;
 	}
 
 	public string addLine(string text) {
@@ -33,9 +28,12 @@ public class OutputFormater : MonoBehaviour {
 		return text.Substring(indexOfNewLine + 2, text.Length - indexOfNewLine - 2);
 	}
 
-	public bool isWordToLarge(string text, string word) {
-		int charLeft = lineLenght - (text.Length % lineLenght);
-		return word.Length >= charLeft || charLeft <= 0 || charLeft == 26;
+	public bool isWordToLarge(string text, string word, int charCount) {
+		int charLeft = lineLenght - (charCount % lineLenght);
+		return (word.Length >= charLeft 
+			|| charLeft == lineLenght 
+			|| charLeft <= 0) 
+			&& text.Length != 0;
 	}
 
 	private bool isEndLine(string text) {
@@ -48,15 +46,13 @@ public class OutputFormater : MonoBehaviour {
 		return lineCount >= maxLine;
 	}
 
-	private string formatText(string text, string word) {
+	private string formatText(string text, string word, int charCount) {
 		string newText = text;
-		if (isWordToLarge (text, word) && !isCompact) {
-			newText = addLine (text);
-		} else if (isEndLine (text) && isCompact) {
-			newText = addLine (text);
+		if (isWordToLarge (text, word, charCount) && !isCompact) {
+			newText = addLine (newText);
 		}
 		if(isScreenFull(text)) {
-			newText = removeFirstLine (text);
+			newText = removeFirstLine (newText);
 		}
 		return newText;
 	}
