@@ -2,13 +2,14 @@
 using System.Collections;
 using System.Threading;
 
+[RequireComponent (typeof (TextMesh))]
 public class FlickeringText : MonoBehaviour {
 
 	public float timeOn = 0.8f;
 	public float timeOff = 0.5f;
 	public string character = "_";
 	private Thread flickeringThread;
-	private bool caracterDisplayed;
+	private bool characterDisplayed;
 	private TextMesh mesh;
 
 	void Start () {
@@ -18,24 +19,30 @@ public class FlickeringText : MonoBehaviour {
 
 	IEnumerator flickeringLoop() {
 		while (true) {
-			flickerText (character);
-			if (isCaracterDisplayed ())
+			updateFlicker ();
+			if (!characterDisplayed) {
 				yield return new WaitForSeconds (timeOn);
-			else {
+			} else {
 				yield return new WaitForSeconds (timeOff);
 			}
 		}
 	}
 
-	private void flickerText(string character) {
-		if (isCaracterDisplayed()) {
-			mesh.text = mesh.text.Substring (0, mesh.text.Length - 1);
+	private void updateFlicker () {
+		if (characterDisplayed) {
+			showChar ();
 		} else {
-			mesh.text += character;
+			hideChar ();
 		}
 	}
 
-	private bool isCaracterDisplayed() {
-		return mesh.text.EndsWith(character);
+	private void showChar() {
+		characterDisplayed = true;
+		mesh.text += character;
+	}
+
+	private void hideChar() {
+		characterDisplayed = false;
+		mesh.text = mesh.text.Substring (0, mesh.text.LastIndexOf (character));
 	}
 }

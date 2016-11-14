@@ -13,4 +13,5 @@ public abstract class Editor : MonoBehaviour {
 	public OutputText getOutputText() {
 		return outputGameObject.GetComponent<OutputText> ();
 	}
+
 }
